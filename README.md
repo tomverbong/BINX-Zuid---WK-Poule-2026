@@ -1,0 +1,1 @@
+# BINX-Zuid---WK-Poule-2026
