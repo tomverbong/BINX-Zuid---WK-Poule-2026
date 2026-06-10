@@ -6,7 +6,7 @@ on:
       - "WK2026_poule_beheer.xlsx"
       - "src/**"
       - "generate_site.py"
-      - ".github/workflows/deploy-pages.yml"
+      - ".github/workflows/deploy-pages.yaml"
       - "requirements.txt"
   workflow_dispatch:
 permissions:
