@@ -7,7 +7,7 @@ on:
       - "WK2026_poule_beheer.xlsx"
       - "src/**"
       - "generate_site.py"
-      - "deploy-pages.yml"
+      - "deploy-pages.yaml"
       - "requirements.txt"
   workflow_dispatch:
 
