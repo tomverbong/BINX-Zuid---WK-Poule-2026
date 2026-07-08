@@ -2,7 +2,7 @@ window.POULE_DATA = {
   "meta": {
     "titel": "BINX Poules",
     "bronbestand": "WK2026_poule_beheer.xlsx",
-    "laatst_ververst": "2026-07-08 13:41:16",
+    "laatst_ververst": "2026-07-08 13:53:15",
     "layout": "wk-tdf-final-v10"
   },
   "participants": [
