@@ -15,6 +15,14 @@ def parse_dutch_date(text):
     m=re.search(r'(\d{1,2})\s+([a-zé]+)\s+(\d{4})', text.lower())
     if not m: return None
     return dt.date(int(m.group(3)), months[m.group(2)], int(m.group(1)))
+def extract_tdf_stand(wb):
+    if 'Stand TdF' not in wb.sheetnames: return []
+    ws=wb['Stand TdF']; rows=[]
+    for r in range(3, ws.max_row+1):
+        rang=ws.cell(r,1).value; naam=ws.cell(r,2).value; totaal=ws.cell(r,3).value
+        if naam is None: continue
+        rows.append({'rang': int(rang) if isinstance(rang,(int,float)) else rang, 'deelnemer': str(naam), 'totaal': int(totaal) if isinstance(totaal,(int,float)) else (totaal or 0)})
+    return rows
 def extract_data(excel_file):
     wb=load_workbook(excel_file, data_only=True)
     ws=wb['Stand']; stand=[]; participants=[]
@@ -47,20 +55,19 @@ def extract_data(excel_file):
         if isinstance(a, str) and b is None and c is None and d is None:
             if a.strip() in phase_keywords or a.strip().lower() in {p.lower() for p in phase_keywords}: stage=a.strip()
             else:
-                date_label=a.strip(); parsed=parse_dutch_date(date_label); date_iso = parsed.isoformat() if parsed else ''
+                date_label=a.strip(); parsed=parse_dutch_date(date_label); date_iso=parsed.isoformat() if parsed else ''
             continue
         if b is not None and d is not None:
             predictions={}; points={}
             for col,name in wedstrijd_participants:
                 predictions[name]=ws.cell(r,col).value; points[name]=ws.cell(r,col+1).value
             matches.append({'fase': stage, 'datum': date_label, 'datum_iso': date_iso, 'tijd': time_to_str(a), 'thuis': str(b), 'uitslag': '' if c is None else str(c), 'uit': str(d), 'predictions': predictions, 'points': points})
-    return {'meta': {'titel': 'WK 2026 Poule – live', 'bronbestand': EXCEL_FILE, 'laatst_ververst': dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'layout': 'minimal-vergelijking-v5'}, 'participants': participants, 'stand': stand, 'bonus_questions': bonus_questions, 'matches': matches}
+    return {'meta': {'titel': 'BINX Poules', 'bronbestand': EXCEL_FILE, 'laatst_ververst': dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'layout': 'wk-tdf-tabs-v1'}, 'participants': participants, 'stand': stand, 'tdf_stand': extract_tdf_stand(wb), 'bonus_questions': bonus_questions, 'matches': matches}
 def build_site():
     data=extract_data(EXCEL_FILE)
     SITE_DIR.mkdir(exist_ok=True)
     for filename in ['index.html','style.css','app.js']:
         shutil.copy2(SRC_DIR/filename, SITE_DIR/filename)
-    with open(SITE_DIR/'data.js', 'w', encoding='utf-8') as f:
-        f.write('window.POULE_DATA = ' + json.dumps(data, ensure_ascii=False, indent=2) + ';\n')
-if __name__ == '__main__':
-    build_site()
+    with open(SITE_DIR/'data.js','w',encoding='utf-8') as f:
+        f.write('window.POULE_DATA = '+json.dumps(data,ensure_ascii=False,indent=2)+';\n')
+if __name__=='__main__': build_site()
