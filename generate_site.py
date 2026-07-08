@@ -57,9 +57,11 @@ def extract_data(excel_file):
             predictions={}; points={}
             for col,name in wp: predictions[name]=ws.cell(r,col).value; points[name]=ws.cell(r,col+1).value
             matches.append({'fase':stage,'datum':date_label,'datum_iso':date_iso,'tijd':time_to_str(a),'thuis':str(b),'uitslag':'' if c is None else str(c),'uit':str(d),'predictions':predictions,'points':points})
-    return {'meta':{'titel':'BINX Poules','bronbestand':EXCEL_FILE,'laatst_ververst':dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'layout':'wk-tdf-tabs-v6'},'participants':participants,'stand':stand,'tdf_stand':tdf(wb),'bonus_questions':bonus,'matches':matches}
+    return {'meta':{'titel':'BINX Poules','bronbestand':EXCEL_FILE,'laatst_ververst':dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'layout':'wk-tdf-final-v10'},'participants':participants,'stand':stand,'tdf_stand':tdf(wb),'bonus_questions':bonus,'matches':matches}
 def build_site():
     data=extract_data(EXCEL_FILE); SITE_DIR.mkdir(exist_ok=True)
-    for fn in ['index.html','style.css','app.js']: shutil.copy2(SRC_DIR/fn,SITE_DIR/fn)
+    for fn in ['index.html','style.css','app.js','podium.png']:
+        src=SRC_DIR/fn
+        if src.exists(): shutil.copy2(src,SITE_DIR/fn)
     (SITE_DIR/'data.js').write_text('window.POULE_DATA = '+json.dumps(data,ensure_ascii=False,indent=2)+';\n',encoding='utf-8')
 if __name__=='__main__': build_site()
