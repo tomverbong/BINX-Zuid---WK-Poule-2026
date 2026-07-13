@@ -1,1 +1,0 @@
-v14: extra fix voor WK-stand rechts. De rechterkolom is sticky onder beide navigatiebalken, krijgt een maximale hoogte en interne scroll zodat de titel Stand en nummer 1 zichtbaar blijven. scrollToToday gebruikt nu een offset.
