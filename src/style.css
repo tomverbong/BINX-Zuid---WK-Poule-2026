@@ -6,59 +6,65 @@
 /* Hoofdschakelaar WK / Tour - sticky zonder overlap */
 .poule-switch{display:flex;justify-content:center;gap:10px;margin:0;flex-wrap:wrap;position:sticky;top:0;z-index:1100;background:var(--bg);padding:10px 0 12px 0;border-bottom:1px solid var(--grid);box-shadow:0 4px 10px rgba(0,0,0,.08)}.poule-btn{appearance:none;border:2px solid var(--navy);background:var(--white);color:var(--navy);padding:12px 24px;font-size:18px;font-weight:800;cursor:pointer;border-radius:999px;box-shadow:0 2px 0 rgba(0,0,0,.06)}.poule-btn.active{background:var(--navy);color:var(--white)}.poule-btn:hover{filter:brightness(.98)}.toolbar{display:flex;justify-content:flex-start;margin:0 0 12px 0;position:sticky;top:70px;z-index:1050;background:var(--bg);padding:10px 0 10px 0;border-bottom:1px solid var(--grid);box-shadow:0 4px 10px rgba(0,0,0,.05)}.poule-view{display:none}.poule-view.active-poule{display:block;padding-top:12px}#wkPoule.active-poule{padding-top:0}.group{scroll-margin-top:145px}.tdf-layout{display:block}.tdf-layout main{display:grid;grid-template-columns:420px minmax(0,1fr);gap:14px;align-items:start}.tdf-panel{max-width:420px}.tdf-prizes-panel{min-width:0}.tdf-panel,.tdf-prizes-panel{background:var(--white);border:1px solid var(--grid);margin-bottom:14px}.tdf-table{width:100%;border-collapse:collapse;table-layout:auto}.tdf-table th,.tdf-table td{border:1px solid var(--grid);padding:8px 10px;font-size:var(--cell-font);white-space:nowrap}.tdf-table th:nth-child(1),.tdf-table td:nth-child(1){width:70px}.tdf-table th:nth-child(3),.tdf-table td:nth-child(3){width:90px}.tdf-table th:nth-child(2),.tdf-table td:nth-child(2){width:auto}.tdf-table thead th{background:var(--navy);color:var(--white);font-size:var(--head-font);text-transform:uppercase}.tdf-table td:nth-child(1),.tdf-table td:nth-child(3){text-align:center}.tdf-table td:nth-child(3){font-weight:800}.tdf-table tbody tr:nth-child(odd) td{background:#FBFDFF}.podium-card{padding:14px 18px 18px 18px;background:var(--white)}.podium-wrap{position:relative;max-width:1000px;margin:0 auto;background:transparent;overflow:hidden}.podium-img{display:block;width:100%;height:auto}.podium-name{position:absolute;transform:translate(-50%,-50%);background:rgba(0,40,104,.94);color:#fff;border:2px solid #fff;border-radius:999px;padding:8px 14px;font-weight:800;font-size:clamp(13px,1.6vw,22px);white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35)}.podium-name-1{left:50%;top:30%}.podium-name-2{left:27%;top:41%}.podium-name-3{left:73%;top:44%}.podium-caption{text-align:center;font-family:Calibri,Segoe UI,Arial,sans-serif;font-size:var(--cell-font);font-weight:400;color:var(--text);margin:16px 0 4px 0}@media (max-width:1180px){.tdf-layout main{grid-template-columns:1fr}.tdf-panel{max-width:none}}@media (max-width:860px){.toolbar{top:122px}.group{scroll-margin-top:205px}.poule-btn{width:100%;max-width:320px;font-size:16px}.tdf-table th,.tdf-table td{font-size:16px;padding:8px}.podium-card{padding:10px}.podium-name{font-size:11px;padding:5px 8px;max-width:34%;overflow:hidden;text-overflow:ellipsis}.podium-caption{font-size:var(--cell-font);line-height:1.25;font-weight:400}}
 
-/* v14 FIX: WK-stand blijft volledig zichtbaar onder de twee vaste balken */
-:root{
-  --sticky-main-height: 74px;
-  --sticky-sub-height: 64px;
-  --sticky-total-height: 154px;
-}
-html{
-  scroll-padding-top: calc(var(--sticky-total-height) + 24px);
-}
-.poule-switch{
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1200 !important;
-}
-#wkPoule .toolbar{
-  position: sticky !important;
-  top: var(--sticky-main-height) !important;
-  z-index: 1150 !important;
-}
-#wkPoule .layout-grid{
-  align-items: start !important;
-}
+/* v15 FIX: geen horizontale scrollbar meer in rechter WK-stand */
 #wkPoule .right-column{
-  position: sticky !important;
-  top: calc(var(--sticky-total-height) + 8px) !important;
-  align-self: start !important;
-  max-height: calc(100vh - var(--sticky-total-height) - 22px) !important;
-  overflow-y: auto !important;
-  scrollbar-gutter: stable;
+  min-width: 0 !important;
 }
-#wkPoule .right-column .stand-panel{
-  margin-top: 0 !important;
+#wkPoule .stand-panel{
+  min-width: 0 !important;
+  overflow: hidden !important;
 }
-.group{
-  scroll-margin-top: calc(var(--sticky-total-height) + 24px) !important;
+#wkPoule .stand-panel .table-wrap{
+  overflow-x: hidden !important;
+  width: 100% !important;
 }
-@media (max-width:1260px){
-  #wkPoule .right-column{
-    position: static !important;
-    max-height: none !important;
-    overflow-y: visible !important;
-  }
+#wkPoule .stand-table{
+  table-layout: fixed !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
-@media (max-width:860px){
-  :root{
-    --sticky-main-height: 126px;
-    --sticky-sub-height: 64px;
-    --sticky-total-height: 214px;
+#wkPoule .stand-table th,
+#wkPoule .stand-table td{
+  padding: 7px 6px !important;
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+#wkPoule .stand-table th:nth-child(1),
+#wkPoule .stand-table td:nth-child(1){
+  width: 52px !important;
+}
+#wkPoule .stand-table th:nth-child(2),
+#wkPoule .stand-table td:nth-child(2){
+  width: auto !important;
+  text-align: left !important;
+}
+#wkPoule .stand-table th:nth-child(3),
+#wkPoule .stand-table td:nth-child(3){
+  width: 72px !important;
+}
+#wkPoule .stand-table th:nth-child(4),
+#wkPoule .stand-table td:nth-child(4){
+  width: 64px !important;
+}
+#wkPoule .stand-table th:nth-child(5),
+#wkPoule .stand-table td:nth-child(5){
+  width: 72px !important;
+}
+@media (max-width:1560px){
+  #wkPoule .stand-table th,
+  #wkPoule .stand-table td{
+    font-size: 15px !important;
+    padding: 6px 5px !important;
   }
-  #wkPoule .toolbar{
-    top: var(--sticky-main-height) !important;
-  }
-  .group{
-    scroll-margin-top: calc(var(--sticky-total-height) + 24px) !important;
-  }
+  #wkPoule .stand-table th:nth-child(1),
+  #wkPoule .stand-table td:nth-child(1){width:46px !important;}
+  #wkPoule .stand-table th:nth-child(3),
+  #wkPoule .stand-table td:nth-child(3){width:66px !important;}
+  #wkPoule .stand-table th:nth-child(4),
+  #wkPoule .stand-table td:nth-child(4){width:58px !important;}
+  #wkPoule .stand-table th:nth-child(5),
+  #wkPoule .stand-table td:nth-child(5){width:66px !important;}
 }

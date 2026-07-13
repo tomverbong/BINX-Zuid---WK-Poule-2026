@@ -1,0 +1,1 @@
+v15: rechter WK-stand geoptimaliseerd zodat er geen horizontale scrollbar meer verschijnt. Kolommen zijn smaller gemaakt, tabel gebruikt fixed layout en tekst wordt indien nodig afgekapt met ellipsis.
